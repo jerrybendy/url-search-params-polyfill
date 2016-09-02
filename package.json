@@ -2,7 +2,12 @@
   "name": "url-search-params-polyfill",
   "version": "1.0.0",
   "description": "a simple polyfill for javascript URLSearchParams",
+  "homepage": "https://github.com/jerrybendy/url-search-params-polyfill",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jerrybendy/url-search-params-polyfill.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
