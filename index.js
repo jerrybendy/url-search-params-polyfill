@@ -1,5 +1,9 @@
 /**
- * Created by jerry on 16/9/2.
+ *
+ *
+ * @author Jerry Bendy <jerry@icewingcc.com>
+ * @licence MIT
+ *
  */
 
 
