@@ -26,7 +26,8 @@
         if (typeof search === "object") {
             for (var i in search) {
                 if (search.hasOwnProperty(i)) {
-                    this.append(i, JSON.stringify(search [i]));
+                    var str = typeof search [i] === 'string' ? search [i] : JSON.stringify(search [i]);
+                    this.append(i, str);
                 }
             }
 
