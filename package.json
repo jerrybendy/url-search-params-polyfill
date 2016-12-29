@@ -9,9 +9,18 @@
     "url": "git://github.com/jerrybendy/url-search-params-polyfill.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*.test.js",
+    "istanbul": "istanbul cover _mocha -- test/*.test.js"
   },
-  "keywords": ["polyfill", "URLSearchParams"],
+  "keywords": [
+    "polyfill",
+    "URLSearchParams"
+  ],
   "author": "Jerry Bendy <jerry@icewingcc.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0"
+  }
 }
