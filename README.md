@@ -1,6 +1,6 @@
-# URLSearchParams polyfill
+# URLSearchParams polyfill  [![](https://img.shields.io/npm/v/url-search-params-polyfill.svg)](https://www.npmjs.com/package/url-search-params-polyfill)
 
-This is a simple polyfill library for javascript's URLSearchParams class.
+This is a polyfill library for javascript's URLSearchParams class. This library has implemented all features from [MDN document](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 
 
 ## Installation
@@ -17,6 +17,19 @@ For babel and es2015+, make sure to import the file:
 ```javascript
 import 'url-search-params-polyfill';
 ```
+
+For es5:
+
+```javascript
+require('url-search-params-polyfill');
+```
+
+For browser, copy the `index.js` file to your project, and add a `script` tag in your html:
+
+```html
+<script src="index.js"></script>
+```
+
 
 ## Usage
 
@@ -35,6 +48,8 @@ var search3 = new URLSearchParams ({id: 1, from: "home"});
 // from location.search, will remove first "?" automatically
 var search4 = new URLSearchParams (window.location.search);
 
+// from anther URLSearchParams object
+var search5 = new URLSearchParams (search2);
 ```
 
 
@@ -90,6 +105,33 @@ search.forEach(function (item) {
 });
 ```
 
+### keys
+
+```javascript
+for (var key of search.keys()) {
+  console.log(key);
+}
+```
+
+### values
+
+```javascript
+for (var value of search.values()){
+  console.log(value);
+}
+```
+
+### for...of
+
+```javascript
+for (var item of search) {
+  console.log('key: ' + item[0] + ', ' + 'value: ' + item[1];
+}
+```
+
+
 ## LICENSE
 
 MIT license
+
+

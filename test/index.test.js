@@ -51,11 +51,11 @@ describe('构造函数', function () {
         expect(a.toString()).to.be.equal('a=1');
     });
 
-    // it('使用另一个 URLSearchParams 对象构造', function () {
-    //     var obj = getSimpleObj();
-    //     var b = new URLSearchParams(obj);
-    //     expect(b.toString()).to.be.equal(obj.toString());
-    // });
+    it('使用另一个 URLSearchParams 对象构造', function () {
+        var obj = getSimpleObj();
+        var b = new URLSearchParams(obj);
+        expect(b.toString()).to.be.equal(obj.toString());
+    });
 });
 
 
