@@ -15,7 +15,9 @@
     }
 
 
-    var __URLSearchParams__ = "__URLSearchParams__";
+    var __URLSearchParams__ = "__URLSearchParams__",
+        prototype = URLSearchParams.prototype,
+        iterable = !!(self.Symbol && self.Symbol.iterator);
 
 
     function URLSearchParams (search) {
@@ -55,7 +57,7 @@
     }
 
 
-    URLSearchParams.prototype.append = function(name, value) {
+    prototype.append = function(name, value) {
         var dict = this [__URLSearchParams__];
         if (name in dict) {
             dict[name].push('' + value);
@@ -64,29 +66,29 @@
         }
     };
 
-    URLSearchParams.prototype.delete = function (name) {
+    prototype.delete = function (name) {
         delete this [__URLSearchParams__] [name];
     };
 
-    URLSearchParams.prototype.get = function (name) {
+    prototype.get = function (name) {
         var dict = this [__URLSearchParams__];
         return name in dict ? dict[name][0] : null;
     };
 
-    URLSearchParams.prototype.getAll = function (name) {
+    prototype.getAll = function (name) {
         var dict = this [__URLSearchParams__];
         return name in dict ? dict [name].slice(0) : [];
     };
 
-    URLSearchParams.prototype.has = function (name) {
+    prototype.has = function (name) {
         return name in this [__URLSearchParams__];
     };
 
-    URLSearchParams.prototype.set = function set(name, value) {
+    prototype.set = function set(name, value) {
         this [__URLSearchParams__][name] = ['' + value];
     };
 
-    URLSearchParams.prototype.forEach = function (callback, thisArg) {
+    prototype.forEach = function (callback, thisArg) {
         var dict = this [__URLSearchParams__];
         Object.getOwnPropertyNames(dict).forEach(function(name) {
             dict[name].forEach(function(value) {
@@ -95,7 +97,7 @@
         }, this);
     };
 
-    URLSearchParams.prototype.toString = function () {
+    prototype.toString = function () {
         var dict = this[__URLSearchParams__], query = [], i, key, name, value;
         for (key in dict) {
             name = encode(key);
@@ -105,6 +107,35 @@
         }
         return query.join('&');
     };
+    
+    prototype.keys = function () {
+        var items = [];
+        this.forEach(function (item, name) {
+            items.push([name]);
+        });
+        return makeIterator(items);
+    };
+
+    prototype.values = function () {
+        var items = [];
+        this.forEach(function (item) {
+            items.push([item]);
+        });
+        return makeIterator(items);
+    };
+
+    prototype.entries = function () {
+        var items = [];
+        this.forEach(function (item, name) {
+            items.push([name, item]);
+        });
+        return makeIterator(items);
+    };
+
+
+    if (iterable) {
+        prototype[self.Symbol.iterator] = prototype.entries;
+    }
 
 
     function encode(str) {
@@ -126,11 +157,26 @@
         return decodeURIComponent(str.replace(/\+/g, ' '));
     }
 
+    function makeIterator(arr) {
+        var iterator = {
+            next: function () {
+                var value = arr.shift();
+                return {done: value === undefined, value: value};
+            }
+        };
 
+        if (iterable) {
+            iterator[self.Symbol.iterator] = function () {
+                return iterator;
+            };
+        }
+
+        return iterator;
+    }
 
     self.URLSearchParams = URLSearchParams;
 
     self.URLSearchParams.polyfill = true;
 
 
-})(typeof self !== 'undefined' ? self : this);
+})(typeof global !== 'undefined' ? global : (typeof window !== 'undefined' ? window : this));

@@ -5,7 +5,7 @@
  * @copyright MicroBenefits
  */
 
-var URLSearchParams = require('../index').URLSearchParams;
+require('../index');
 var expect = require('chai').expect;
 
 
@@ -50,6 +50,12 @@ describe('构造函数', function () {
         a.append('a', 1);
         expect(a.toString()).to.be.equal('a=1');
     });
+
+    // it('使用另一个 URLSearchParams 对象构造', function () {
+    //     var obj = getSimpleObj();
+    //     var b = new URLSearchParams(obj);
+    //     expect(b.toString()).to.be.equal(obj.toString());
+    // });
 });
 
 
@@ -178,6 +184,46 @@ describe('ForEach 循环遍历', function () {
 
 });
 
+
+describe('Iterator 迭代器', function () {
+
+    it('entries', function () {
+        var obj = getSimpleObj(),
+            ret = [];
+        for (var p of obj.entries()) {
+            ret.push(p[0] + ',' + p[1]);
+        }
+        expect(ret.join(';')).to.be.equal('a,1;b,2;c,3');
+    });
+
+    it('for...of', function () {
+        var obj = getSimpleObj(),
+            ret = [];
+        for (var p of obj) {
+            ret.push(p[0] + ',' + p[1]);
+        }
+        expect(ret.join(';')).to.be.equal('a,1;b,2;c,3');
+    });
+
+    it('keys', function () {
+        var obj = getSimpleObj(),
+            ret = [];
+        for (var key of obj.keys()) {
+            ret.push(key);
+        }
+        expect(ret.join(';')).to.be.equal('a;b;c');
+    });
+
+    it('values', function () {
+        var obj = getSimpleObj(),
+            ret = [];
+        for (var value of obj.values()) {
+            ret.push(value);
+        }
+        expect(ret.join(';')).to.be.equal('1;2;3');
+    });
+
+});
 
 describe('其它', function () {
 

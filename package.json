@@ -10,6 +10,7 @@
   },
   "scripts": {
     "test": "mocha test/*.test.js",
+    "testWatch": "mocha test/*.test.js -w",
     "istanbul": "istanbul cover _mocha -- test/*.test.js"
   },
   "keywords": [
