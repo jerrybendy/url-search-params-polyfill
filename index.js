@@ -167,6 +167,23 @@
         return query.join('&');
     };
 
+
+    /**
+     * Sort all name-value pairs
+     */
+    prototype.sort = function () {
+        var dict = this[__URLSearchParams__], keys = [], k, i, ret = {};
+        for (k in dict) {
+            keys.push(k);
+        }
+        keys.sort();
+        for (i = 0; i < keys.length; i ++) {
+            ret[keys[i]] = dict[keys[i]];
+        }
+        this[__URLSearchParams__] = ret;
+    };
+
+
     /**
      * Returns an iterator allowing to go through all keys of
      * the key/value pairs contained in this object.

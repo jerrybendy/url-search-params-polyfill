@@ -97,6 +97,12 @@ search.set("id", 2);
 search.toString();
 ```
 
+### sort
+
+```javascript
+search.sort();
+```
+
 ### forEach
 
 ```javascript

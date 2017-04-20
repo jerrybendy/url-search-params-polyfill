@@ -225,6 +225,16 @@ describe('Iterator', function () {
 
 });
 
+
+describe('Sort', function () {
+    it ('Sort keys', function () {
+        var obj = new URLSearchParams('q=flag&key=hello&s=world');
+        obj.sort();
+        expect(obj.toString()).to.be.equal('key=hello&q=flag&s=world');
+    });
+});
+
+
 describe('Others', function () {
 
     var testObj = {
