@@ -19,19 +19,19 @@ function getKeyRepeatObj () {
 }
 
 
-describe('构造函数', function () {
+describe('Constructor', function () {
 
-    it('通过 search 字符串构建', function () {
+    it('Construct with a search string', function () {
         var a = new URLSearchParams('?a=1&b=2');
         expect(a.toString()).to.be.equal('a=1&b=2');
     });
 
-    it('通过不带问号的 search 字符串构建', function () {
+    it('Construct with a search string without "?"', function () {
         var a = new URLSearchParams('a=1&b=2');
         expect(a.toString()).to.be.equal('a=1&b=2');
     });
 
-    it('使用对象构建', function () {
+    it('Construct with an object', function () {
         var a = new URLSearchParams({
             a: 1,
             b: true,
@@ -44,14 +44,14 @@ describe('构造函数', function () {
         expect(a.toString()).to.be.equal('a=1&b=true&c=null&d=%5B%5D&e=%7B%22f%22%3A%22g%22%7D&f=hello');
     });
 
-    it('创建空的对象', function () {
+    it('Construct an empty object', function () {
         var a = new URLSearchParams();
         expect(a.toString()).to.be.equal('');
         a.append('a', 1);
         expect(a.toString()).to.be.equal('a=1');
     });
 
-    it('使用另一个 URLSearchParams 对象构造', function () {
+    it('Construct with another URLSearchParams object', function () {
         var obj = getSimpleObj();
         var b = new URLSearchParams(obj);
         expect(b.toString()).to.be.equal(obj.toString());
@@ -59,15 +59,15 @@ describe('构造函数', function () {
 });
 
 
-describe('Append 插入数据', function () {
+describe('Append data', function () {
 
-    it('Append 插入数据', function () {
+    it('Append data', function () {
         var a = getSimpleObj();
         a.append("id", 1);
         expect(a.toString()).to.be.equal('a=1&b=2&c=3&id=1');
     });
 
-    it('Append 重复插入相同 key 的数据', function () {
+    it('Append data with repetitive key', function () {
         var a = getSimpleObj();
         a.append('id', 1);
         a.append('id', 2);
@@ -77,37 +77,37 @@ describe('Append 插入数据', function () {
 });
 
 
-describe('Get 读取数据', function () {
+describe('Get data', function () {
 
-    it('读取简单数据', function () {
+    it('Get simple data', function () {
         var a = getSimpleObj();
         expect(a.get('a')).to.be.equal('1');
     });
 
-    it('读取布尔值数据，要返回字符串', function () {
+    it('Get a boolean data, should return string', function () {
         var a = new URLSearchParams('a=true');
         expect(a.get('a')).to.be.equal('true');
     });
 
-    it('读取 append 添加的数据', function () {
+    it('Get data which from append', function () {
         var a = getSimpleObj();
         a.append('id', 'xx');
         expect(a.get('id')).to.be.equal('xx');
     });
 
-    it('读取 key 重复的数据，应返回第一条的结果', function () {
+    it('Get data with repetitive key, should return the first one', function () {
         var a = getSimpleObj();
         a.append('id', 'xx');
         a.append('id', 'yy');
         expect(a.get('id')).to.be.equal('xx');
     });
 
-    it('GetAll 读取简单数据，应返回数组', function () {
+    it('GetAll read simple data, should return an array', function () {
         var a = getSimpleObj();
         expect(a.getAll('a')).to.be.deep.equal(['1']);
     });
 
-    it('GetAll 读取 key 重复的数据，应返回所有数据的数组', function () {
+    it('GetAll read data with repetitive key, should return all data with same key', function () {
         var a = getKeyRepeatObj();
         expect(a.getAll('id')).to.be.deep.equal(['xx', 'yy', 'zz']);
     });
@@ -115,21 +115,21 @@ describe('Get 读取数据', function () {
 });
 
 
-describe('Delete 删除数据', function () {
+describe('Delete data', function () {
 
-    it('删除简单数据', function () {
+    it('Remove simple data', function () {
         var a = getSimpleObj();
         a.delete('a');
         expect(a.toString()).to.be.equal('b=2&c=3');
     });
 
-    it('删除 key 重复的数据', function () {
+    it('Remove data with repetitive key', function () {
         var a = getKeyRepeatObj();
         a.delete('id');
         expect(a.toString()).to.be.equal('test=true');
     });
 
-    it('删除不存在的数据', function () {
+    it('Remove data which doesn\'t exists', function () {
         var a = getSimpleObj();
         a.delete('notExists');
         expect(a.toString()).to.be.equal('a=1&b=2&c=3');
@@ -137,9 +137,9 @@ describe('Delete 删除数据', function () {
 });
 
 
-describe('Has 检查 key 是否存在', function () {
+describe('Has check key exists', function () {
 
-    it('检查 key 是否存在', function () {
+    it('Check the key exists', function () {
         var a = getSimpleObj();
         expect(a.has('a')).to.be.equal(true);
         expect(a.has('notExists')).to.be.equal(false);
@@ -148,15 +148,15 @@ describe('Has 检查 key 是否存在', function () {
 });
 
 
-describe('Set 设置值', function () {
+describe('Set data', function () {
 
-    it('设置新值', function () {
+    it('Set a new data', function () {
         var a = getSimpleObj();
         a.set('a', 'xx');
         expect(a.toString()).to.be.equal('a=xx&b=2&c=3');
     });
 
-    it('设置不存在的 key 值', function () {
+    it('Set a nonexistent key', function () {
         var a = getSimpleObj();
         a.set('id', 'xx');
         expect(a.toString()).to.be.equal('a=1&b=2&c=3&id=xx');
@@ -165,9 +165,9 @@ describe('Set 设置值', function () {
 });
 
 
-describe('ForEach 循环遍历', function () {
+describe('ForEach', function () {
 
-    it('遍历', function () {
+    it('ForEach', function () {
         var a = getSimpleObj(),
             ret = {};
 
@@ -185,7 +185,7 @@ describe('ForEach 循环遍历', function () {
 });
 
 
-describe('Iterator 迭代器', function () {
+describe('Iterator', function () {
 
     it('entries', function () {
         var obj = getSimpleObj(),
@@ -225,7 +225,7 @@ describe('Iterator 迭代器', function () {
 
 });
 
-describe('其它', function () {
+describe('Others', function () {
 
     var testObj = {
         a: '你好',
@@ -236,12 +236,12 @@ describe('其它', function () {
 
     var testStr = 'a=%E4%BD%A0%E5%A5%BD&b=%3Cscript%3E&c=http%3A%2F%2Fa.com%2F%3Fc%3D7%26d%3D8%23%21%2Fasd&d=hello+world';
 
-    it('URL 编码', function () {
+    it('URL encode', function () {
         var a = new URLSearchParams(testObj);
         expect(a.toString()).to.be.equal(testStr);
     });
 
-    it('URL 解码', function () {
+    it('URL decode', function () {
         var a = new URLSearchParams(testStr);
         var ret = {};
 
