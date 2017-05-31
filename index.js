@@ -10,7 +10,7 @@
 (function(self) {
     'use strict';
 
-    if (self.URLSearchParams) {
+    if (self.URLSearchParams && (new self.URLSearchParams({a:1})).toString() === 'a=1') {
         return;
     }
 
