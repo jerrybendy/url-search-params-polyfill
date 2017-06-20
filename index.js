@@ -10,14 +10,15 @@
 (function(self) {
     'use strict';
 
-    if (self.URLSearchParams && (new self.URLSearchParams({a:1})).toString() === 'a=1') {
-        return;
-    }
-
-
-    var __URLSearchParams__ = "__URLSearchParams__",
+    var nativeURLSearchParams = self.URLSearchParams ? self.URLSearchParams : null,
+        isSupportObjectConstructor = nativeURLSearchParams && (new nativeURLSearchParams({a: 1})).toString() === 'a=1',
+        __URLSearchParams__ = "__URLSearchParams__",
         prototype = URLSearchParams.prototype,
         iterable = !!(self.Symbol && self.Symbol.iterator);
+
+    if (nativeURLSearchParams && isSupportObjectConstructor) {
+        return;
+    }
 
 
     /**
@@ -26,7 +27,7 @@
      * @param {object|string|URLSearchParams} search
      * @constructor
      */
-    function URLSearchParams (search) {
+    function URLSearchParams(search) {
         search = search || "";
 
         this [__URLSearchParams__] = {};
@@ -52,7 +53,7 @@
             }
 
             var pairs = search.split("&");
-            for (var j = 0; j < pairs.length; j ++) {
+            for (var j = 0; j < pairs.length; j++) {
                 var value = pairs [j],
                     index = value.indexOf('=');
 
@@ -88,7 +89,7 @@
      *
      * @param {string} name
      */
-    prototype.delete = function (name) {
+    prototype.delete = function(name) {
         delete this [__URLSearchParams__] [name];
     };
 
@@ -98,7 +99,7 @@
      * @param {string} name
      * @returns {string|null}
      */
-    prototype.get = function (name) {
+    prototype.get = function(name) {
         var dict = this [__URLSearchParams__];
         return name in dict ? dict[name][0] : null;
     };
@@ -109,7 +110,7 @@
      * @param {string} name
      * @returns {Array}
      */
-    prototype.getAll = function (name) {
+    prototype.getAll = function(name) {
         var dict = this [__URLSearchParams__];
         return name in dict ? dict [name].slice(0) : [];
     };
@@ -120,7 +121,7 @@
      * @param {string} name
      * @returns {boolean}
      */
-    prototype.has = function (name) {
+    prototype.has = function(name) {
         return name in this [__URLSearchParams__];
     };
 
@@ -142,7 +143,7 @@
      * @param {function} callback
      * @param {object} thisArg
      */
-    prototype.forEach = function (callback, thisArg) {
+    prototype.forEach = function(callback, thisArg) {
         var dict = this [__URLSearchParams__];
         Object.getOwnPropertyNames(dict).forEach(function(name) {
             dict[name].forEach(function(value) {
@@ -156,7 +157,7 @@
      *
      * @returns {string}
      */
-    prototype.toString = function () {
+    prototype.toString = function() {
         var dict = this[__URLSearchParams__], query = [], i, key, name, value;
         for (key in dict) {
             name = encode(key);
@@ -171,13 +172,13 @@
     /**
      * Sort all name-value pairs
      */
-    prototype.sort = function () {
+    prototype.sort = function() {
         var dict = this[__URLSearchParams__], keys = [], k, i, ret = {};
         for (k in dict) {
             keys.push(k);
         }
         keys.sort();
-        for (i = 0; i < keys.length; i ++) {
+        for (i = 0; i < keys.length; i++) {
             ret[keys[i]] = dict[keys[i]];
         }
         this[__URLSearchParams__] = ret;
@@ -190,9 +191,9 @@
      *
      * @returns {function}
      */
-    prototype.keys = function () {
+    prototype.keys = function() {
         var items = [];
-        this.forEach(function (item, name) {
+        this.forEach(function(item, name) {
             items.push([name]);
         });
         return makeIterator(items);
@@ -204,9 +205,9 @@
      *
      * @returns {function}
      */
-    prototype.values = function () {
+    prototype.values = function() {
         var items = [];
-        this.forEach(function (item) {
+        this.forEach(function(item) {
             items.push([item]);
         });
         return makeIterator(items);
@@ -218,9 +219,9 @@
      *
      * @returns {function}
      */
-    prototype.entries = function () {
+    prototype.entries = function() {
         var items = [];
-        this.forEach(function (item, name) {
+        this.forEach(function(item, name) {
             items.push([name, item]);
         });
         return makeIterator(items);
@@ -242,7 +243,7 @@
             '%20': '+',
             '%00': '\x00'
         };
-        return encodeURIComponent(str).replace(/[!'\(\)~]|%20|%00/g, function (match) {
+        return encodeURIComponent(str).replace(/[!'\(\)~]|%20|%00/g, function(match) {
             return replace[match];
         });
     }
@@ -253,14 +254,14 @@
 
     function makeIterator(arr) {
         var iterator = {
-            next: function () {
+            next: function() {
                 var value = arr.shift();
                 return {done: value === undefined, value: value};
             }
         };
 
         if (iterable) {
-            iterator[self.Symbol.iterator] = function () {
+            iterator[self.Symbol.iterator] = function() {
                 return iterator;
             };
         }
@@ -268,9 +269,16 @@
         return iterator;
     }
 
-    self.URLSearchParams = URLSearchParams;
+
+    // Use proxy if browser doesn't support object constructor
+    self.URLSearchParams = (nativeURLSearchParams && !isSupportObjectConstructor) ?
+        new Proxy(nativeURLSearchParams, {
+            construct: function(target, args) {
+                return new target((new URLSearchParams(args[0]).toString()));
+            }
+        }) :
+        URLSearchParams;
 
     self.URLSearchParams.polyfill = true;
-
 
 })(typeof global !== 'undefined' ? global : (typeof window !== 'undefined' ? window : this));
