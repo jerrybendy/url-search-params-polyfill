@@ -9,9 +9,8 @@
     "url": "git://github.com/jerrybendy/url-search-params-polyfill.git"
   },
   "scripts": {
-    "test": "mocha test/*.test.js",
-    "testWatch": "mocha test/*.test.js -w",
-    "istanbul": "istanbul cover _mocha -- test/*.test.js"
+    "test": "mocha test/index.test.js && mocha test/partial-support.test.js",
+    "istanbul": "istanbul cover _mocha -- test/index.test.js"
   },
   "keywords": [
     "polyfill",

@@ -5,6 +5,8 @@
  * @copyright MicroBenefits
  */
 
+global.partialSupportTest = true;
+
 require('./USP-without-full-feature');
 
 require('./index.test');

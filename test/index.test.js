@@ -8,6 +8,7 @@
 require('../index');
 var expect = require('chai').expect;
 
+var PREFIX = global.partialSupportTest ? '[PARTIAL] ' : '[FULL] ';
 
 function getSimpleObj () {
     return new URLSearchParams('a=1&b=2&c=3');
@@ -19,7 +20,7 @@ function getKeyRepeatObj () {
 }
 
 
-describe('Constructor', function () {
+describe(PREFIX + 'Constructor', function () {
 
     it('Construct with a search string', function () {
         var a = new URLSearchParams('?a=1&b=2');
@@ -59,7 +60,7 @@ describe('Constructor', function () {
 });
 
 
-describe('Append data', function () {
+describe(PREFIX + 'Append data', function () {
 
     it('Append data', function () {
         var a = getSimpleObj();
@@ -77,7 +78,7 @@ describe('Append data', function () {
 });
 
 
-describe('Get data', function () {
+describe(PREFIX + 'Get data', function () {
 
     it('Get simple data', function () {
         var a = getSimpleObj();
@@ -115,7 +116,7 @@ describe('Get data', function () {
 });
 
 
-describe('Delete data', function () {
+describe(PREFIX + 'Delete data', function () {
 
     it('Remove simple data', function () {
         var a = getSimpleObj();
@@ -137,7 +138,7 @@ describe('Delete data', function () {
 });
 
 
-describe('Has check key exists', function () {
+describe(PREFIX + 'Has check key exists', function () {
 
     it('Check the key exists', function () {
         var a = getSimpleObj();
@@ -148,7 +149,7 @@ describe('Has check key exists', function () {
 });
 
 
-describe('Set data', function () {
+describe(PREFIX + 'Set data', function () {
 
     it('Set a new data', function () {
         var a = getSimpleObj();
@@ -165,7 +166,7 @@ describe('Set data', function () {
 });
 
 
-describe('ForEach', function () {
+describe(PREFIX + 'ForEach', function () {
 
     it('ForEach', function () {
         var a = getSimpleObj(),
@@ -185,7 +186,7 @@ describe('ForEach', function () {
 });
 
 
-describe('Iterator', function () {
+describe(PREFIX + 'Iterator', function () {
 
     it('entries', function () {
         var obj = getSimpleObj(),
@@ -226,7 +227,7 @@ describe('Iterator', function () {
 });
 
 
-describe('Sort', function () {
+describe(PREFIX + 'Sort', function () {
     it ('Sort keys', function () {
         var obj = new URLSearchParams('q=flag&key=hello&s=world');
         obj.sort();
@@ -235,7 +236,7 @@ describe('Sort', function () {
 });
 
 
-describe('Others', function () {
+describe(PREFIX + 'Others', function () {
 
     var testObj = {
         a: '你好',
