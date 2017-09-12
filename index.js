@@ -278,6 +278,11 @@
 
                 if (-1 < index) {
                     appendTo(dict, decode(value.slice(0, index)), decode(value.slice(index + 1)));
+
+                } else {
+                    if (value) {
+                        appendTo(dict, decode(value), '');
+                    }
                 }
             }
         }

@@ -57,6 +57,12 @@ describe(PREFIX + 'Constructor', function () {
         var b = new URLSearchParams(obj);
         expect(b.toString()).to.be.equal(obj.toString());
     });
+
+    it('Construct with a key without value', function () {
+        var a = new URLSearchParams('a&b&c');
+        expect(a.get('a')).to.be.equal('');
+        expect(a.toString()).to.be.equal('a=&b=&c=');
+    });
 });
 
 
@@ -106,6 +112,11 @@ describe(PREFIX + 'Get data', function () {
     it('GetAll read simple data, should return an array', function () {
         var a = getSimpleObj();
         expect(a.getAll('a')).to.be.deep.equal(['1']);
+    });
+
+    it('GetAll construct with an array value', function () {
+        var a = new URLSearchParams('a[]=x&a[]=y');
+        expect(a.getAll('a[]')).to.be.deep.equal(['x', 'y']);
     });
 
     it('GetAll read data with repetitive key, should return all data with same key', function () {
