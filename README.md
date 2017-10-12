@@ -4,7 +4,7 @@ This is a polyfill library for javascript's URLSearchParams class. This library 
 
 This library can use for both browsers and nodeJs.
 
-Some browsers have native URLSearchParams class support, but not full. The new `2.x` version will detect if browsers have full feature support and extend it ([#9](https://github.com/jerrybendy/url-search-params-polyfill/pull/9)).
+Some browsers have native URLSearchParams class support, but not full. The new `2.x` version detects if browsers have full feature support and extends it.
 
 ## Installation
 
