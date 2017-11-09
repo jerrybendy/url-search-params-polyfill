@@ -134,7 +134,7 @@ for (var value of search.values()){
 
 ```javascript
 for (var item of search) {
-  console.log('key: ' + item[0] + ', ' + 'value: ' + item[1];
+  console.log('key: ' + item[0] + ', ' + 'value: ' + item[1]);
 }
 ```
 
