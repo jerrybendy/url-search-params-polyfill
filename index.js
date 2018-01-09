@@ -122,7 +122,8 @@
     /*
      * Apply polifill to global object and append other prototype into it
      */
-    self.URLSearchParams = (nativeURLSearchParams && !isSupportObjectConstructor) ?
+    self.URLSearchParams = (nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy) ?
+        // Safari 10.0 doesn't support Proxy, so it won't extend URLSearchParams on safari 10.0
         new Proxy(nativeURLSearchParams, {
             construct: function(target, args) {
                 return new target((new URLSearchParamsPolyfill(args[0]).toString()));

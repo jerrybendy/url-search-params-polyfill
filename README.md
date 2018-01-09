@@ -39,7 +39,7 @@ For browser, copy the `index.js` file to your project, and add a `script` tag in
 Use `URLSearchParams` directly. You can `new` an object from a string or an object.
 
 ```javascript
-// new a empty object
+// new an empty object
 var search1 = new URLSearchParams ();
 
 // from a string
@@ -138,6 +138,33 @@ for (var item of search) {
 }
 ```
 
+## Known Issues
+
+#### Use with fetch ([#18](https://github.com/jerrybendy/url-search-params-polyfill/issues/18))
+Via [fetch spec](https://fetch.spec.whatwg.org/#body-mixin), when passing an `URLSearchParams` object as a request body, the request should add a header with `Content-Type: application/x-www-form-urlencoded; charset=UTF-8`. But, browsers which have `fetch` support but no `URLSearchParams` have no this behavior.
+
+Via the data of [caniuse](https://caniuse.com/#search=fetch), there are many browsers support `fetch` but `URLSearchParams`. They are:
+
+| Edge | Chrome | Opera | Sumsung Internet | QQ | Baidu |
+| --- | --- | --- | --- | --- | --- |
+| 14 - 16 | 40 - 48 | 27 - 35 | 4 | 1.2 | 7.12 |
+
+If you want to be compatible with these browsers, you should add a `Content-Type` header manually, like below (just an example):
+
+```js
+function myFetch(url, {headers = {}, body}) {
+    headers = headers instanceof Headers ? headers : new Headers(headers);
+    
+    if (body instanceof URLSearchParams) {
+        headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    }
+    
+    fetch(url, {
+        headers,
+        body
+    });
+}
+```
 
 ## LICENSE
 
