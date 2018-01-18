@@ -145,7 +145,7 @@ Via [fetch spec](https://fetch.spec.whatwg.org/#body-mixin), when passing an `UR
 
 Via the data of [caniuse](https://caniuse.com/#search=fetch), there are many browsers support `fetch` but `URLSearchParams`. They are:
 
-| Edge | Chrome | Opera | Sumsung Internet | QQ | Baidu |
+| Edge | Chrome | Opera | Samsung Internet | QQ | Baidu |
 | --- | --- | --- | --- | --- | --- |
 | 14 - 16 | 40 - 48 | 27 - 35 | 4 | 1.2 | 7.12 |
 
