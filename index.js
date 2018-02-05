@@ -11,11 +11,13 @@
 
     var nativeURLSearchParams = self.URLSearchParams ? self.URLSearchParams : null,
         isSupportObjectConstructor = nativeURLSearchParams && (new nativeURLSearchParams({a: 1})).toString() === 'a=1',
+        // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
+        decodesPlusesCorrectly = nativeURLSearchParams && (new nativeURLSearchParams('s=%2B').get('s') === '+'),
         __URLSearchParams__ = "__URLSearchParams__",
         prototype = URLSearchParamsPolyfill.prototype,
         iterable = !!(self.Symbol && self.Symbol.iterator);
 
-    if (nativeURLSearchParams && isSupportObjectConstructor) {
+    if (nativeURLSearchParams && isSupportObjectConstructor && decodesPlusesCorrectly) {
         return;
     }
 
@@ -118,11 +120,13 @@
         return query.join('&');
     };
 
-
+    // There is a bug in Safari 10.1 and `Proxy`ing it is not enough.
+    var forSureUsePolyfill = !decodesPlusesCorrectly;
+    var useProxy = (!forSureUsePolyfill && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy)
     /*
      * Apply polifill to global object and append other prototype into it
      */
-    self.URLSearchParams = (nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy) ?
+    self.URLSearchParams = useProxy ?
         // Safari 10.0 doesn't support Proxy, so it won't extend URLSearchParams on safari 10.0
         new Proxy(nativeURLSearchParams, {
             construct: function(target, args) {
