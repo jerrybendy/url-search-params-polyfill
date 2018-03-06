@@ -35,7 +35,6 @@
         if (search instanceof URLSearchParams || search instanceof URLSearchParamsPolyfill) {
             search = search.toString();
         }
-
         this [__URLSearchParams__] = parseToDict(search);
     }
 
@@ -110,6 +109,7 @@
      * @returns {string}
      */
     prototype.toString = function() {
+
         var dict = this[__URLSearchParams__], query = [], i, key, name, value;
         for (key in dict) {
             name = encode(key);
@@ -263,10 +263,25 @@
         var dict = {};
 
         if (typeof search === "object") {
-            for (var i in search) {
-                if (search.hasOwnProperty(i)) {
-                    var str = typeof search [i] === 'string' ? search [i] : JSON.stringify(search [i]);
-                    appendTo(dict, i, str);
+            for (var key in search) {
+                if (search.hasOwnProperty(key)) {
+                    if (Array.isArray(search[key])) {
+                        var arrayProp = search[key]
+                        var arrayLength = arrayProp.length;
+                        if (arrayLength === 0) {
+                            appendTo(dict, key, '')
+                        }
+                        else {
+                            for (j = 0; j < arrayProp.length; j++) {
+                                value = arrayProp[j];
+                                appendTo(dict, key, value);
+                            }
+                        }
+                    }
+                    else {
+                        var str = typeof search [key] === 'string' ? search [key] : JSON.stringify(search [key]);
+                        appendTo(dict, key, str);
+                    }
                 }
             }
 
@@ -299,7 +314,7 @@
         if (name in dict) {
             dict[name].push('' + value);
         } else {
-            dict[name] = ['' + value];
+            dict[name] = Array.isArray(value) ? value : ['' + value];
         }
     }
 

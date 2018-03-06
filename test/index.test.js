@@ -42,7 +42,20 @@ describe(PREFIX + 'Constructor', function () {
             f: "hello"
         });
 
-        expect(a.toString()).to.be.equal('a=1&b=true&c=null&d=%5B%5D&e=%7B%22f%22%3A%22g%22%7D&f=hello');
+        expect(a.toString()).to.be.equal('a=1&b=true&c=null&d=&e=%7B%22f%22%3A%22g%22%7D&f=hello');
+    });
+
+    it('Construct with an object with a non-empty array', function () {
+        var a = new URLSearchParams({
+            a: 1,
+            b: true,
+            c: null,
+            d: [1, 2, 3],
+            e: {f: "g"},
+            f: "hello"
+        });
+
+        expect(a.toString()).to.be.equal('a=1&b=true&c=null&d=1&d=2&d=3&e=%7B%22f%22%3A%22g%22%7D&f=hello');
     });
 
     it('Construct an empty object', function () {
