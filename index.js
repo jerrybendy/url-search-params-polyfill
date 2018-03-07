@@ -109,7 +109,6 @@
      * @returns {string}
      */
     prototype.toString = function() {
-
         var dict = this[__URLSearchParams__], query = [], i, key, name, value;
         for (key in dict) {
             name = encode(key);
@@ -265,23 +264,7 @@
         if (typeof search === "object") {
             for (var key in search) {
                 if (search.hasOwnProperty(key)) {
-                    if (Array.isArray(search[key])) {
-                        var arrayProp = search[key]
-                        var arrayLength = arrayProp.length;
-                        if (arrayLength === 0) {
-                            appendTo(dict, key, '')
-                        }
-                        else {
-                            for (j = 0; j < arrayProp.length; j++) {
-                                value = arrayProp[j];
-                                appendTo(dict, key, value);
-                            }
-                        }
-                    }
-                    else {
-                        var str = typeof search [key] === 'string' ? search [key] : JSON.stringify(search [key]);
-                        appendTo(dict, key, str);
-                    }
+                    appendTo(dict, key, search[key])
                 }
             }
 
@@ -311,10 +294,14 @@
     }
 
     function appendTo(dict, name, value) {
+        var val = typeof value === 'string' ? value : (
+            value !== null && typeof value.toString === 'function' ? value.toString() : JSON.stringify(value)
+        )
+
         if (name in dict) {
-            dict[name].push('' + value);
+            dict[name].push(val);
         } else {
-            dict[name] = Array.isArray(value) ? value : ['' + value];
+            dict[name] = [val];
         }
     }
 
