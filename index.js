@@ -35,7 +35,6 @@
         if (search instanceof URLSearchParams || search instanceof URLSearchParamsPolyfill) {
             search = search.toString();
         }
-
         this [__URLSearchParams__] = parseToDict(search);
     }
 
@@ -263,10 +262,9 @@
         var dict = {};
 
         if (typeof search === "object") {
-            for (var i in search) {
-                if (search.hasOwnProperty(i)) {
-                    var str = typeof search [i] === 'string' ? search [i] : JSON.stringify(search [i]);
-                    appendTo(dict, i, str);
+            for (var key in search) {
+                if (search.hasOwnProperty(key)) {
+                    appendTo(dict, key, search[key])
                 }
             }
 
@@ -296,10 +294,14 @@
     }
 
     function appendTo(dict, name, value) {
+        var val = typeof value === 'string' ? value : (
+            value !== null && typeof value.toString === 'function' ? value.toString() : JSON.stringify(value)
+        )
+
         if (name in dict) {
-            dict[name].push('' + value);
+            dict[name].push(val);
         } else {
-            dict[name] = ['' + value];
+            dict[name] = [val];
         }
     }
 

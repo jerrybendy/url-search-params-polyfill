@@ -39,10 +39,14 @@ describe(PREFIX + 'Constructor', function () {
             c: null,
             d: [],
             e: {f: "g"},
-            f: "hello"
+            f: "hello",
+            g: ['a', '2', false],
+            h: {
+                toString: function() {return 'h'}
+            }
         });
 
-        expect(a.toString()).to.be.equal('a=1&b=true&c=null&d=%5B%5D&e=%7B%22f%22%3A%22g%22%7D&f=hello');
+        expect(a.toString()).to.be.equal('a=1&b=true&c=null&d=&e=%5Bobject+Object%5D&f=hello&g=a%2C2%2Cfalse&h=h');
     });
 
     it('Construct an empty object', function () {
