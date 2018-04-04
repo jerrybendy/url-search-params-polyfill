@@ -141,7 +141,7 @@ for (var item of search) {
 ## Known Issues
 
 #### Use with fetch ([#18](https://github.com/jerrybendy/url-search-params-polyfill/issues/18))
-Via [fetch spec](https://fetch.spec.whatwg.org/#body-mixin), when passing a `URLSearchParams` object as a request body, the request should add a header with `Content-Type: application/x-www-form-urlencoded; charset=UTF-8`, but browsers which have `fetch` support ant not `URLSearchParams` support do not have this behavior.
+Via [fetch spec](https://fetch.spec.whatwg.org/#body-mixin), when passing a `URLSearchParams` object as a request body, the request should add a header with `Content-Type: application/x-www-form-urlencoded; charset=UTF-8`, but browsers which have `fetch` support and not `URLSearchParams` support do not have this behavior.
 
 Via the data of [caniuse](https://caniuse.com/#search=fetch), there are many browsers which support `fetch` but not `URLSearchParams`:
 
