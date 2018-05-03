@@ -183,7 +183,7 @@
     USPProto.keys = USPProto.keys || function() {
         var items = [];
         this.forEach(function(item, name) {
-            items.push([name]);
+            items.push(name);
         });
         return makeIterator(items);
     };
@@ -197,7 +197,7 @@
     USPProto.values = USPProto.values || function() {
         var items = [];
         this.forEach(function(item) {
-            items.push([item]);
+            items.push(item);
         });
         return makeIterator(items);
     };
