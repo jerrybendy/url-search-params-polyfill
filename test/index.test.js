@@ -228,6 +228,8 @@ describe(PREFIX + 'Iterator', function () {
             ret.push(key);
         }
         expect(ret.join(';')).to.be.equal('a;b;c');
+
+        expect(Array.from(obj.keys())).to.be.eql(['a','b','c']);
     });
 
     it('values', function () {
@@ -237,6 +239,8 @@ describe(PREFIX + 'Iterator', function () {
             ret.push(value);
         }
         expect(ret.join(';')).to.be.equal('1;2;3');
+
+        expect(Array.from(obj.values())).to.be.eql(['1', '2', '3']);
     });
 
 });
