@@ -295,7 +295,7 @@
 
     function appendTo(dict, name, value) {
         var val = typeof value === 'string' ? value : (
-            value !== null && typeof value.toString === 'function' ? value.toString() : JSON.stringify(value)
+            value !== null && value !== undefined && typeof value.toString === 'function' ? value.toString() : JSON.stringify(value)
         )
 
         if (name in dict) {
