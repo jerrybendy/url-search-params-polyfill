@@ -14,10 +14,17 @@
         // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
         decodesPlusesCorrectly = nativeURLSearchParams && (new nativeURLSearchParams('s=%2B').get('s') === '+'),
         __URLSearchParams__ = "__URLSearchParams__",
+        encodesAmpersandsCorrectly = true,
         prototype = URLSearchParamsPolyfill.prototype,
         iterable = !!(self.Symbol && self.Symbol.iterator);
 
-    if (nativeURLSearchParams && isSupportObjectConstructor && decodesPlusesCorrectly) {
+    if (nativeURLSearchParams) {
+        var ampersandTest = new nativeURLSearchParams();
+        ampersandTest.append('s', ' &');
+        encodesAmpersandsCorrectly = ampersandTest.toString() === 's=+%26';
+    }
+
+    if (nativeURLSearchParams && isSupportObjectConstructor && decodesPlusesCorrectly && encodesAmpersandsCorrectly) {
         return;
     }
 
