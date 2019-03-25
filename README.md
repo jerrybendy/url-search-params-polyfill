@@ -1,10 +1,13 @@
 # URLSearchParams Polyfill  [![](https://img.shields.io/npm/v/url-search-params-polyfill.svg)](https://www.npmjs.com/package/url-search-params-polyfill)
 
-This is a polyfill library for JavaScript's URLSearchParams class. This library has implemented all features from [MDN document](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
+This is a polyfill library for JavaScript's `URLSearchParams` class. 
 
-This library can use for both browsers and Node.js.
+### Features
 
-Some browsers have native URLSearchParams class support, but not full. The new `2.x` version detects if browsers have full feature support and extends it.
+* Implemented all features from [MDN document](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
+* Can use for both browsers and Node.js.
+* Detect if browsers have full support for `URLSearchParams` and extend it
+
 
 ## Installation
 
