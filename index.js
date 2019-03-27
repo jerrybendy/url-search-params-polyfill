@@ -61,7 +61,7 @@
      *
      * @param {string} name
      */
-    prototype.delete = function(name) {
+    prototype['delete'] = function(name) {
         delete this [__URLSearchParams__] [name];
     };
 
@@ -171,7 +171,7 @@
         keys.sort();
 
         for (i = 0; i < keys.length; i++) {
-            this.delete(keys[i]);
+            this['delete'](keys[i]);
         }
         for (i = 0; i < keys.length; i++) {
             var key = keys[i], values = dict[key];

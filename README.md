@@ -7,6 +7,7 @@ This is a polyfill library for JavaScript's `URLSearchParams` class.
 * Implemented all features from [MDN document](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 * Can use for both browsers and Node.js.
 * Detect if browsers have full support for `URLSearchParams` and extend it
+* Compatible with IE8 and above
 
 
 ## Installation
