@@ -245,7 +245,11 @@
     }
 
     function decode(str) {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
+        return str
+            .replace(/[ +]/g, '%20')
+            .replace(/(%[a-f0-9]{2})+/ig, function(match) {
+                return decodeURIComponent(match);
+            });
     }
 
     function makeIterator(arr) {

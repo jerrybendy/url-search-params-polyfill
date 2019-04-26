@@ -262,10 +262,11 @@ describe(PREFIX + 'Others', function () {
         b: '<script>',
         c: 'http://a.com/?c=7&d=8#!/asd',
         d: 'hello world',
-        e: '+'
+        e: '+',
+        f: '/%^^%zz%%%world你好'
     };
 
-    var testStr = 'a=%E4%BD%A0%E5%A5%BD&b=%3Cscript%3E&c=http%3A%2F%2Fa.com%2F%3Fc%3D7%26d%3D8%23%21%2Fasd&d=hello+world&e=%2B';
+    var testStr = 'a=%E4%BD%A0%E5%A5%BD&b=%3Cscript%3E&c=http%3A%2F%2Fa.com%2F%3Fc%3D7%26d%3D8%23%21%2Fasd&d=hello+world&e=%2B&f=%2F%25%5E%5E%25zz%25%25%25world%E4%BD%A0%E5%A5%BD';
 
     it('URL encode', function () {
         var a = new URLSearchParams(testObj);
