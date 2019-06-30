@@ -67,6 +67,20 @@ describe(PREFIX + 'Constructor', function () {
         expect(a.get('a')).to.be.equal('');
         expect(a.toString()).to.be.equal('a=&b=&c=');
     });
+
+    it('Construct with a sequence', function() {
+        var a = new URLSearchParams([["foo", 1],["bar", 2]]);
+        expect(a.get('foo')).to.be.equal('1');
+    });
+
+    it('Construct with an invalid sequence', function() {
+        var badFunc = function() {
+            var a = new URLSearchParams([["foo", 1],["bar", 2], ["baz"]]);
+            a.get('foo');
+        }
+
+        expect(badFunc).to.throw(TypeError);
+    });
 });
 
 

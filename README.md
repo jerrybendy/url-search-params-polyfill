@@ -57,6 +57,9 @@ var search4 = new URLSearchParams(window.location.search);
 
 // from anther URLSearchParams object
 var search5 = new URLSearchParams(search2);
+
+// from a sequence
+var search6 = new URLSearchParams([["foo", 1], ["bar", 2]]);
 ```
 
 

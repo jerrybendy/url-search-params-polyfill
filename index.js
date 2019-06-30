@@ -273,9 +273,22 @@
         var dict = {};
 
         if (typeof search === "object") {
-            for (var key in search) {
-                if (search.hasOwnProperty(key)) {
-                    appendTo(dict, key, search[key])
+            // if `search` is an array, treat it as a sequence
+            if (isArray(search)) {
+                for (var i = 0; i < search.length; i++) {
+                    var item = search[i];
+                    if (isArray(item) && item.length === 2) {
+                        appendTo(dict, item[0], item[1]);
+                    } else {
+                        throw new TypeError("Failed to construct 'URLSearchParams': Sequence initializer must only contain pair elements");
+                    }
+                }
+
+            } else {
+                for (var key in search) {
+                    if (search.hasOwnProperty(key)) {
+                        appendTo(dict, key, search[key]);
+                    }
                 }
             }
 
@@ -314,6 +327,10 @@
         } else {
             dict[name] = [val];
         }
+    }
+
+    function isArray(val) {
+        return !!val && '[object Array]' === Object.prototype.toString.call(val);
     }
 
 })(typeof global !== 'undefined' ? global : (typeof window !== 'undefined' ? window : this));
