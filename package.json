@@ -1,6 +1,6 @@
 {
   "name": "url-search-params-polyfill",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "a simple polyfill for javascript URLSearchParams",
   "homepage": "https://github.com/jerrybendy/url-search-params-polyfill",
   "main": "index.js",
