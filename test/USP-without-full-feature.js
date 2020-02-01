@@ -70,7 +70,7 @@
      */
     prototype.append = function(name, value) {
         var dict = this [__URLSearchParams__];
-        if (name in dict) {
+        if (Object.prototype.hasOwnProperty.call(dict, name)) {
             dict[name].push('' + value);
         } else {
             dict[name] = ['' + value];

@@ -81,6 +81,14 @@ describe(PREFIX + 'Constructor', function () {
 
         expect(badFunc).to.throw(TypeError);
     });
+
+    it('Construct with an Object property', function() {
+        var a = new URLSearchParams('hasOwnProperty=hop&toString=ts&prototype=p');
+
+        expect(a.get('hasOwnProperty')).to.be.equal('hop');
+        expect(a.get('toString')).to.be.equal('ts');
+        expect(a.get('prototype')).to.be.equal('p');
+    });
 });
 
 

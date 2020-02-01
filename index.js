@@ -270,7 +270,7 @@
     }
 
     function parseToDict(search) {
-        var dict = {};
+        var dict = 'create' in Object ? Object.create(null) : {};
 
         if (typeof search === "object") {
             // if `search` is an array, treat it as a sequence
@@ -322,7 +322,8 @@
             value !== null && value !== undefined && typeof value.toString === 'function' ? value.toString() : JSON.stringify(value)
         );
 
-        if (name in dict) {
+        // #47 Prevent using `hasOwnProperty` as a property name
+        if (Object.prototype.hasOwnProperty.call(dict, name)) {
             dict[name].push(val);
         } else {
             dict[name] = [val];
