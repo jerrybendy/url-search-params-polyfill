@@ -150,6 +150,11 @@ describe(PREFIX + 'Get data', function () {
         expect(a.getAll('id')).to.be.deep.equal(['xx', 'yy', 'zz']);
     });
 
+    it('Get data with special keys', function() {
+        var a = getSimpleObj();
+        expect(a.get('hasOwnProperty')).to.be.equal(null);
+        expect(a.getAll('hasOwnProperty').length).to.be.equal(0);
+    });
 });
 
 
@@ -181,6 +186,7 @@ describe(PREFIX + 'Has check key exists', function () {
         var a = getSimpleObj();
         expect(a.has('a')).to.be.equal(true);
         expect(a.has('notExists')).to.be.equal(false);
+        expect(a.has('hasOwnProperty')).to.be.equal(false);
     });
 
 });

@@ -73,7 +73,7 @@
      */
     prototype.get = function(name) {
         var dict = this [__URLSearchParams__];
-        return name in dict ? dict[name][0] : null;
+        return this.has(name) ? dict[name][0] : null;
     };
 
     /**
@@ -84,7 +84,7 @@
      */
     prototype.getAll = function(name) {
         var dict = this [__URLSearchParams__];
-        return name in dict ? dict [name].slice(0) : [];
+        return this.has(name) ? dict [name].slice(0) : [];
     };
 
     /**
@@ -94,7 +94,7 @@
      * @returns {boolean}
      */
     prototype.has = function(name) {
-        return name in this [__URLSearchParams__];
+        return hasOwnProperty(this [__URLSearchParams__], name);
     };
 
     /**
@@ -270,7 +270,7 @@
     }
 
     function parseToDict(search) {
-        var dict = 'create' in Object ? Object.create(null) : {};
+        var dict = {};
 
         if (typeof search === "object") {
             // if `search` is an array, treat it as a sequence
@@ -323,7 +323,7 @@
         );
 
         // #47 Prevent using `hasOwnProperty` as a property name
-        if (Object.prototype.hasOwnProperty.call(dict, name)) {
+        if (hasOwnProperty(dict, name)) {
             dict[name].push(val);
         } else {
             dict[name] = [val];
@@ -332,6 +332,10 @@
 
     function isArray(val) {
         return !!val && '[object Array]' === Object.prototype.toString.call(val);
+    }
+
+    function hasOwnProperty(obj, prop) {
+        return Object.prototype.hasOwnProperty.call(obj, prop);
     }
 
 })(typeof global !== 'undefined' ? global : (typeof window !== 'undefined' ? window : this));
