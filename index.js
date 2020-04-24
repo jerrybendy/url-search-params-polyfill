@@ -9,7 +9,15 @@
 (function(self) {
     'use strict';
 
-    var nativeURLSearchParams = (self.URLSearchParams && self.URLSearchParams.prototype.get) ? self.URLSearchParams : null,
+    var nativeURLSearchParams = (function() {
+            // #41 Fix issue in RN
+            try {
+                if (self.URLSearchParams && (new self.URLSearchParams('foo=bar')).get('foo') === 'bar') {
+                    return self.URLSearchParams;
+                }
+            } catch (e) {}
+            return null;
+        })(),
         isSupportObjectConstructor = nativeURLSearchParams && (new nativeURLSearchParams({a: 1})).toString() === 'a=1',
         // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
         decodesPlusesCorrectly = nativeURLSearchParams && (new nativeURLSearchParams('s=%2B').get('s') === '+'),
