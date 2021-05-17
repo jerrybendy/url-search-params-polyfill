@@ -1,11 +1,9 @@
-/**
+/**!
+ * url-search-params-polyfill
  *
- *
- * @author Jerry Bendy <jerry@icewingcc.com>
+ * @author Jerry Bendy (https://github.com/jerrybendy)
  * @licence MIT
- *
  */
-
 (function(self) {
     'use strict';
 
