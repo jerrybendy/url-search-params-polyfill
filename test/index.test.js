@@ -282,6 +282,15 @@ describe(PREFIX + 'Sort', function () {
     });
 });
 
+describe(PREFIX + 'Size', function () {
+    it ('Get size', function () {
+        var a = new URLSearchParams('c=4&a=2&b=3&a=1');
+        expect(a.size).to.be.equal(4);
+        var b = new URLSearchParams('c=4&a=2&b=3');
+        expect(b.size).to.be.equal(3);
+    });
+});
+
 
 describe(PREFIX + 'Others', function () {
 

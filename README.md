@@ -145,6 +145,11 @@ for (var item of search) {
 }
 ```
 
+### size
+```javascript
+console.log(search.size)
+```
+
 ## Known Issues
 
 #### Use with fetch ([#18](https://github.com/jerrybendy/url-search-params-polyfill/issues/18))

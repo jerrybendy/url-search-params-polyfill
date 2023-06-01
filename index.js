@@ -19,6 +19,7 @@
         isSupportObjectConstructor = nativeURLSearchParams && (new nativeURLSearchParams({a: 1})).toString() === 'a=1',
         // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
         decodesPlusesCorrectly = nativeURLSearchParams && (new nativeURLSearchParams('s=%2B').get('s') === '+'),
+        isSupportSize = !!nativeURLSearchParams.prototype.size,
         __URLSearchParams__ = "__URLSearchParams__",
         // Fix bug in Edge which cannot encode ' &' correctly
         encodesAmpersandsCorrectly = nativeURLSearchParams ? (function() {
@@ -29,7 +30,7 @@
         prototype = URLSearchParamsPolyfill.prototype,
         iterable = !!(self.Symbol && self.Symbol.iterator);
 
-    if (nativeURLSearchParams && isSupportObjectConstructor && decodesPlusesCorrectly && encodesAmpersandsCorrectly) {
+    if (nativeURLSearchParams && isSupportObjectConstructor && decodesPlusesCorrectly && encodesAmpersandsCorrectly && isSupportSize) {
         return;
     }
 
@@ -148,7 +149,7 @@
         propValue = URLSearchParamsPolyfill;
     }
     /*
-     * Apply polifill to global object and append other prototype into it
+     * Apply polyfill to global object and append other prototype into it
      */
     Object.defineProperty(self, 'URLSearchParams', {
         value: propValue
@@ -240,6 +241,16 @@
         USPProto[self.Symbol.iterator] = USPProto[self.Symbol.iterator] || USPProto.entries;
     }
 
+    if (!USPProto.size) {
+        Object.defineProperty(USPProto, 'size', {
+            get: function () {
+                var that = this
+                return Object.keys(this[__URLSearchParams__]).reduce(function (prev, cur) {
+                    return prev + that[__URLSearchParams__][cur].length;
+                }, 0);
+            }
+        });
+    }
 
     function encode(str) {
         var replace = {
