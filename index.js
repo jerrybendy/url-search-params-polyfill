@@ -19,7 +19,7 @@
         isSupportObjectConstructor = nativeURLSearchParams && (new nativeURLSearchParams({a: 1})).toString() === 'a=1',
         // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
         decodesPlusesCorrectly = nativeURLSearchParams && (new nativeURLSearchParams('s=%2B').get('s') === '+'),
-        isSupportSize = nativeURLSearchParams.prototype.hasOwnProperty('size'),
+        isSupportSize = 'size' in nativeURLSearchParams.prototype,
         __URLSearchParams__ = "__URLSearchParams__",
         // Fix bug in Edge which cannot encode ' &' correctly
         encodesAmpersandsCorrectly = nativeURLSearchParams ? (function() {
@@ -244,9 +244,12 @@
     if (!USPProto.size) {
         Object.defineProperty(USPProto, 'size', {
             get: function () {
-                var that = this
-                return Object.keys(this[__URLSearchParams__]).reduce(function (prev, cur) {
-                    return prev + that[__URLSearchParams__][cur].length;
+                var dict = parseToDict(this.toString())
+                if (USPProto === this) {
+                    throw new TypeError('Illegal invocation at URLSearchParams.invokeGetter')
+                }
+                return Object.keys(dict).reduce(function (prev, cur) {
+                    return prev + dict[cur].length;
                 }, 0);
             }
         });
