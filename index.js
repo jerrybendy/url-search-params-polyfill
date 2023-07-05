@@ -133,9 +133,8 @@
     };
 
     // There is a bug in Safari 10.1 and `Proxy`ing it is not enough.
-    var forSureUsePolyfill = !decodesPlusesCorrectly;
-    var useProxy = (!forSureUsePolyfill && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy);
-    var propValue; 
+    var useProxy = self.Proxy && nativeURLSearchParams && (!decodesPlusesCorrectly || !encodesAmpersandsCorrectly || !isSupportObjectConstructor || !isSupportSize);
+    var propValue;
     if (useProxy) {
         // Safari 10.0 doesn't support Proxy, so it won't extend URLSearchParams on safari 10.0
         propValue = new Proxy(nativeURLSearchParams, {
@@ -148,6 +147,7 @@
     } else {
         propValue = URLSearchParamsPolyfill;
     }
+
     /*
      * Apply polyfill to global object and append other prototype into it
      */
@@ -158,6 +158,11 @@
     var USPProto = self.URLSearchParams.prototype;
 
     USPProto.polyfill = true;
+
+    // Fix #54, `toString.call(new URLSearchParams)` will return correct value when Proxy not used
+    if (!useProxy && self.Symbol) {
+        USPProto[self.Symbol.toStringTag] = 'URLSearchParams';
+    }
 
     /**
      *
