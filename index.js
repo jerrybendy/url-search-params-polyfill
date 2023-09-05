@@ -169,35 +169,39 @@
      * @param {function} callback
      * @param {object} thisArg
      */
-    USPProto.forEach = USPProto.forEach || function(callback, thisArg) {
-        var dict = parseToDict(this.toString());
-        Object.getOwnPropertyNames(dict).forEach(function(name) {
-            dict[name].forEach(function(value) {
-                callback.call(thisArg, value, name, this);
+    if (!('forEach' in USPProto)) {
+        USPProto.forEach = function(callback, thisArg) {
+            var dict = parseToDict(this.toString());
+            Object.getOwnPropertyNames(dict).forEach(function(name) {
+                dict[name].forEach(function(value) {
+                    callback.call(thisArg, value, name, this);
+                }, this);
             }, this);
-        }, this);
-    };
+        };
+    }
 
     /**
      * Sort all name-value pairs
      */
-    USPProto.sort = USPProto.sort || function() {
-        var dict = parseToDict(this.toString()), keys = [], k, i, j;
-        for (k in dict) {
-            keys.push(k);
-        }
-        keys.sort();
-
-        for (i = 0; i < keys.length; i++) {
-            this['delete'](keys[i]);
-        }
-        for (i = 0; i < keys.length; i++) {
-            var key = keys[i], values = dict[key];
-            for (j = 0; j < values.length; j++) {
-                this.append(key, values[j]);
+    if (!('sort' in USPProto)) {
+        USPProto.sort = function() {
+            var dict = parseToDict(this.toString()), keys = [], k, i, j;
+            for (k in dict) {
+                keys.push(k);
             }
-        }
-    };
+            keys.sort();
+
+            for (i = 0; i < keys.length; i++) {
+                this['delete'](keys[i]);
+            }
+            for (i = 0; i < keys.length; i++) {
+                var key = keys[i], values = dict[key];
+                for (j = 0; j < values.length; j++) {
+                    this.append(key, values[j]);
+                }
+            }
+        };
+    }
 
     /**
      * Returns an iterator allowing to go through all keys of
@@ -205,13 +209,15 @@
      *
      * @returns {function}
      */
-    USPProto.keys = USPProto.keys || function() {
-        var items = [];
-        this.forEach(function(item, name) {
-            items.push(name);
-        });
-        return makeIterator(items);
-    };
+    if (!('keys' in USPProto)) {
+        USPProto.keys = function() {
+            var items = [];
+            this.forEach(function(item, name) {
+                items.push(name);
+            });
+            return makeIterator(items);
+        };
+    }
 
     /**
      * Returns an iterator allowing to go through all values of
@@ -219,13 +225,15 @@
      *
      * @returns {function}
      */
-    USPProto.values = USPProto.values || function() {
-        var items = [];
-        this.forEach(function(item) {
-            items.push(item);
-        });
-        return makeIterator(items);
-    };
+    if (!('values' in USPProto)) {
+        USPProto.values = function() {
+            var items = [];
+            this.forEach(function(item) {
+                items.push(item);
+            });
+            return makeIterator(items);
+        };
+    }
 
     /**
      * Returns an iterator allowing to go through all key/value
@@ -233,20 +241,21 @@
      *
      * @returns {function}
      */
-    USPProto.entries = USPProto.entries || function() {
-        var items = [];
-        this.forEach(function(item, name) {
-            items.push([name, item]);
-        });
-        return makeIterator(items);
-    };
-
+    if (!('entries' in USPProto)) {
+        USPProto.entries = function() {
+            var items = [];
+            this.forEach(function(item, name) {
+                items.push([name, item]);
+            });
+            return makeIterator(items);
+        };
+    }
 
     if (iterable) {
         USPProto[self.Symbol.iterator] = USPProto[self.Symbol.iterator] || USPProto.entries;
     }
 
-    if (!USPProto.size) {
+    if (!('size' in USPProto)) {
         Object.defineProperty(USPProto, 'size', {
             get: function () {
                 var dict = parseToDict(this.toString())
