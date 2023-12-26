@@ -117,7 +117,7 @@
     };
 
     /**
-     * Returns a string containg a query string suitable for use in a URL.
+     * Returns a string containing a query string suitable for use in a URL.
      *
      * @returns {string}
      */
